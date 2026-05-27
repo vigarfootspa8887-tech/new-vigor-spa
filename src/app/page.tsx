@@ -9,23 +9,18 @@ const NAV_LINKS = [
 const SERVICES = [
   {
     title: "Foot Reflexology",
-    image: "/images/service-foot.jpg",
+    image: "/service-foot.jpg",
     alt: "Foot reflexology treatment at New Vigor Foot Spa",
   },
   {
     title: "Body Massage",
-    image: "/images/service-massage.jpg",
+    image: "/service-massage.jpg",
     alt: "Relaxing body massage at New Vigor Foot Spa",
   },
   {
     title: "Hot Stone Therapy",
     image: "/images/service-stones.jpg",
     alt: "Hot stone therapy at New Vigor Foot Spa",
-  },
-  {
-    title: "Aromatherapy",
-    image: "/images/service-aroma.jpg",
-    alt: "Aromatherapy treatment at New Vigor Foot Spa",
   },
 ] as const;
 
@@ -75,9 +70,9 @@ const GALLERY_IMAGES = [
   { src: "/images/gallery-1.jpg", alt: "New Vigor Foot Spa treatment room" },
   { src: "/images/gallery-2.jpg", alt: "New Vigor Foot Spa relaxation area" },
   { src: "/images/gallery-3.jpg", alt: "New Vigor Foot Spa therapy session" },
-  { src: "/images/service-massage.jpg", alt: "Massage therapy at New Vigor Foot Spa" },
+  { src: "/images/gallery-4.jpg", alt: "New Vigor Foot Spa ambiance" },
+  { src: "/images/gallery-5.jpg", alt: "New Vigor Foot Spa decor" },
   { src: "/images/service-stones.jpg", alt: "Hot stone therapy at New Vigor Foot Spa" },
-  { src: "/images/service-aroma.jpg", alt: "Aromatherapy at New Vigor Foot Spa" },
 ] as const;
 
 function Navbar() {
@@ -168,6 +163,25 @@ function Services() {
               </h3>
             </div>
           ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Prices() {
+  return (
+    <section id="prices" className="bg-white py-24">
+      <div className="mx-auto max-w-4xl px-6 text-center">
+        <h2 className="mb-12 font-serif text-4xl text-brown-deep md:text-5xl">
+          Services &amp; Pricing
+        </h2>
+        <div className="overflow-hidden rounded-xl shadow-lg">
+          <img
+            src="/images/price.jpg"
+            alt="New Vigor Foot Spa price list"
+            className="w-full"
+          />
         </div>
       </div>
     </section>
@@ -267,6 +281,7 @@ export default function Home() {
       <Navbar />
       <Hero />
       <Services />
+      <Prices />
       <About />
       <Gallery />
       <Contact />
