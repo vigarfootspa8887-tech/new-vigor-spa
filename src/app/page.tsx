@@ -9,12 +9,12 @@ const NAV_LINKS = [
 const SERVICES = [
   {
     title: "Foot Reflexology",
-    image: "/service-foot.jpg",
+    image: "/images/service-foot.jpg",
     alt: "Foot reflexology treatment at New Vigor Foot Spa",
   },
   {
     title: "Body Massage",
-    image: "/service-massage.jpg",
+    image: "/images/service-massage.jpg",
     alt: "Relaxing body massage at New Vigor Foot Spa",
   },
   {
