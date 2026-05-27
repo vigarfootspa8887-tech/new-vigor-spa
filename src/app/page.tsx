@@ -83,7 +83,7 @@ function Navbar() {
           <img
             src="/images/logo.png"
             alt="New Vigor Foot Spa"
-            className="h-10 w-auto brightness-0 invert"
+            className="h-10 w-auto"
           />
           <span className="font-serif text-xl tracking-wide text-white">
             New Vigor Foot Spa
@@ -119,11 +119,6 @@ function Hero() {
       />
       <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70" />
       <div className="relative z-10 mx-auto max-w-3xl px-6 text-center">
-        <img
-          src="/images/logo.png"
-          alt="New Vigor Foot Spa"
-          className="mx-auto mb-8 h-24 w-auto brightness-0 invert"
-        />
         <h1 className="mb-6 font-serif text-5xl leading-tight text-white md:text-7xl">
           Your Escape from Stress
         </h1>
@@ -131,7 +126,7 @@ function Hero() {
           A peaceful place to relax and recharge.
         </p>
         <a
-          href="#contact"
+          href="https://go.bychronos.com/l/smithtown-11787-new-vigor-foot-spa-806098/a/services?p=g&rwg_token=AFd1xnGfhHUUgCpJLpbZT4BIXR-KAFV1w3l47SS89uwhQfuX_LabadvFfFbuCn9YhfcotxwptJ7u0SBfCzTYK6bYQuHDKe2khA%3D%3D"
           className="inline-block rounded-full bg-accent px-10 py-4 text-sm font-semibold tracking-widest text-white transition-colors hover:bg-accent-hover"
         >
           BOOK YOUR TIME
@@ -148,7 +143,7 @@ function Services() {
         <h2 className="mb-16 text-center font-serif text-4xl text-brown-deep md:text-5xl">
           Our Services
         </h2>
-        <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3 justify-items-center">
           {SERVICES.map((service) => (
             <div key={service.title} className="flex flex-col items-center">
               <div className="mb-6 size-48 overflow-hidden rounded-full shadow-lg">
