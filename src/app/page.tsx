@@ -4,6 +4,7 @@ const NAV_LINKS = [
   { label: "ABOUT", href: "#about" },
   { label: "GALLERY", href: "#gallery" },
   { label: "CONTACT", href: "#contact" },
+  { label: "BOOKING", href: "/booking" },
 ] as const;
 
 const SERVICES = [
@@ -126,7 +127,7 @@ function Hero() {
           A peaceful place to relax and recharge.
         </p>
         <a
-          href="https://go.bychronos.com/l/smithtown-11787-new-vigor-foot-spa-806098/a/services?p=g&rwg_token=AFd1xnGfhHUUgCpJLpbZT4BIXR-KAFV1w3l47SS89uwhQfuX_LabadvFfFbuCn9YhfcotxwptJ7u0SBfCzTYK6bYQuHDKe2khA%3D%3D"
+          href="/booking"
           className="inline-block rounded-full bg-accent px-10 py-4 text-sm font-semibold tracking-widest text-white transition-colors hover:bg-accent-hover"
         >
           BOOK YOUR TIME
