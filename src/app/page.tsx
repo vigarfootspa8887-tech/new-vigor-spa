@@ -126,10 +126,16 @@ function Hero() {
           A peaceful place to relax and recharge.
         </p>
         <a
-          href="https://go.bychronos.com/l/smithtown-11787-new-vigor-foot-spa-806098/a/services?p=g&rwg_token=AFd1xnGD5z7fjU2uLNFUlpWQ-3BnBBo4JxBWCC8iUHvgt7wuh4KD2NWTkHG_7yabDFB4L8jaFkZqkyXXOMAUv53GRnLFPfjloQ%3D%3D"
+          href="tel:+16316568887"
           className="inline-block rounded-full bg-accent px-10 py-4 text-sm font-semibold tracking-widest text-white transition-colors hover:bg-accent-hover"
         >
-          BOOK YOUR TIME
+          CALL (631) 656-8887
+        </a>
+        <a
+          href="https://go.bychronos.com/l/smithtown-11787-new-vigor-foot-spa-806098/a/services?p=g&rwg_token=AFd1xnGD5z7fjU2uLNFUlpWQ-3BnBBo4JxBWCC8iUHvgt7wuh4KD2NWTkHG_7yabDFB4L8jaFkZqkyXXOMAUv53GRnLFPfjloQ%3D%3D"
+          className="mt-3 inline-block text-sm text-gray-400 underline underline-offset-2 transition-colors hover:text-accent"
+        >
+          Book Online
         </a>
       </div>
     </section>
