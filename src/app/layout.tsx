@@ -17,6 +17,7 @@ export const metadata: Metadata = {
   title: "New Vigor Foot Spa | Relax. Recharge. Revitalize.",
   description:
     "Experience the ultimate relaxation at New Vigor Foot Spa. Foot reflexology, body massage, hot stone therapy, and aromatherapy in a peaceful setting.",
+  icons: { icon: "/images/logo.png" },
 };
 
 export default function RootLayout({
