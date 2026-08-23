@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { connection } from "next/server";
 import { Suspense } from "react";
+import { ReviewsCarousel, type ReviewCardData } from "./reviews-carousel";
 
 const NAV_LINKS = [
   { label: "HOME", href: "#home" },
@@ -235,13 +236,18 @@ function About() {
   );
 }
 
-async function getGooglePlace(): Promise<GooglePlace | null> {
+type GooglePlaceResult = {
+  place: GooglePlace | null;
+  status: string;
+};
+
+async function getGooglePlace(): Promise<GooglePlaceResult> {
   await connection();
 
   const apiKey = process.env.GOOGLE_PLACES_API_KEY;
 
   if (!apiKey) {
-    return null;
+    return { place: null, status: "missing-key" };
   }
 
   try {
@@ -275,42 +281,20 @@ async function getGooglePlace(): Promise<GooglePlace | null> {
     );
 
     if (!response.ok) {
-      return null;
+      return { place: null, status: `google-${response.status}` };
     }
 
     const data = (await response.json()) as { places?: GooglePlace[] };
     const place = data.places?.[0];
 
     if (place?.displayName?.text !== "New Vigor Foot Spa") {
-      return null;
+      return { place: null, status: place ? "place-mismatch" : "no-place" };
     }
 
-    return place;
+    return { place, status: "ready" };
   } catch {
-    return null;
+    return { place: null, status: "request-error" };
   }
-}
-
-function Stars({ rating }: { rating: number }) {
-  const filledStars = Math.round(rating);
-
-  return (
-    <span
-      className="inline-flex gap-0.5 text-amber-400"
-      aria-label={`${rating} out of 5 stars`}
-    >
-      {[1, 2, 3, 4, 5].map((star) => (
-        <svg
-          key={star}
-          viewBox="0 0 20 20"
-          className={`size-5 ${star <= filledStars ? "fill-current" : "fill-gray-200"}`}
-          aria-hidden="true"
-        >
-          <path d="M9.05 2.93c.3-.92 1.6-.92 1.9 0l1.12 3.45a1 1 0 0 0 .95.69h3.63c.97 0 1.37 1.24.59 1.81l-2.94 2.13a1 1 0 0 0-.36 1.12l1.12 3.45c.3.92-.75 1.69-1.54 1.12l-2.93-2.14a1 1 0 0 0-1.18 0L6.48 16.7c-.79.57-1.84-.2-1.54-1.12l1.12-3.45a1 1 0 0 0-.36-1.12L2.76 8.88c-.78-.57-.38-1.81.59-1.81h3.63a1 1 0 0 0 .95-.69l1.12-3.45Z" />
-        </svg>
-      ))}
-    </span>
-  );
 }
 
 function GoogleMapsAttribution() {
@@ -321,9 +305,9 @@ function GoogleMapsAttribution() {
   );
 }
 
-function ReviewsFallback() {
+function ReviewsFallback({ status = "loading" }: { status?: string }) {
   return (
-    <section id="reviews" className="bg-bg-cream py-24">
+    <section id="reviews" className="bg-bg-cream py-24" data-review-status={status}>
       <div className="mx-auto max-w-7xl px-6 text-center">
         <p className="mb-3 text-xs font-semibold tracking-[0.25em] text-accent uppercase">
           Guest Experiences
@@ -353,20 +337,30 @@ function ReviewsFallback() {
 }
 
 async function GoogleReviews() {
-  const place = await getGooglePlace();
+  const { place, status } = await getGooglePlace();
   const reviews = (place?.reviews ?? [])
     .filter((review) => review.text?.text)
-    .slice(0, 3);
+    .slice(0, 5);
 
   if (!place || reviews.length === 0) {
-    return <ReviewsFallback />;
+    return <ReviewsFallback status={place ? "no-reviews" : status} />;
   }
 
   const reviewsUrl = place.googleMapsUri ?? GOOGLE_REVIEWS_URL;
   const rating = place.rating ?? 5;
+  const reviewCards: ReviewCardData[] = reviews.map((review) => ({
+    authorName: review.authorAttribution?.displayName ?? "Google reviewer",
+    authorUri: review.authorAttribution?.uri,
+    photoUri: review.authorAttribution?.photoUri,
+    rating: review.rating ?? 5,
+    relativeTime:
+      review.relativePublishTimeDescription ?? "Google review",
+    text: review.text?.text ?? "",
+    reviewUrl: review.googleMapsUri ?? reviewsUrl,
+  }));
 
   return (
-    <section id="reviews" className="bg-bg-cream py-24">
+    <section id="reviews" className="bg-bg-cream py-24" data-review-status="ready">
       <div className="mx-auto max-w-7xl px-6">
         <div className="mb-12 flex flex-col items-center justify-between gap-8 text-center md:flex-row md:text-left">
           <div>
@@ -387,84 +381,33 @@ async function GoogleReviews() {
               {rating.toFixed(1)}
             </span>
             <span className="text-left">
-              <Stars rating={rating} />
+              <span
+                className="block tracking-[0.08em] text-amber-400"
+                aria-label={`${rating} out of 5 stars`}
+              >
+                ★★★★★
+              </span>
               <span className="mt-1 block text-xs text-gray-500">
                 {place.userRatingCount
                   ? `Based on ${place.userRatingCount} reviews`
                   : "Guest rating"}
               </span>
             </span>
-            <span className="text-accent transition-transform group-hover:translate-x-0.5" aria-hidden="true">
+            <span
+              className="text-accent transition-transform group-hover:translate-x-0.5"
+              aria-hidden="true"
+            >
               ↗
             </span>
           </a>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-3">
-          {reviews.map((review, index) => {
-            const author = review.authorAttribution;
-            const authorName = author?.displayName ?? "Google reviewer";
-            const reviewUrl = review.googleMapsUri ?? reviewsUrl;
-
-            return (
-              <article
-                key={`${authorName}-${index}`}
-                className="flex h-full flex-col rounded-2xl border border-black/5 bg-white p-7 shadow-sm"
-              >
-                <div className="mb-5 flex items-center gap-3">
-                  {author?.photoUri ? (
-                    <img
-                      src={author.photoUri}
-                      alt={`${authorName}'s Google profile`}
-                      className="size-11 rounded-full object-cover"
-                      referrerPolicy="no-referrer"
-                    />
-                  ) : (
-                    <span className="flex size-11 items-center justify-center rounded-full bg-bg-warm font-serif text-lg text-brown-deep">
-                      {authorName.charAt(0).toUpperCase()}
-                    </span>
-                  )}
-                  <span className="min-w-0">
-                    {author?.uri ? (
-                      <a
-                        href={author.uri}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="block truncate font-semibold text-brown-deep hover:text-accent"
-                      >
-                        {authorName}
-                      </a>
-                    ) : (
-                      <span className="block truncate font-semibold text-brown-deep">
-                        {authorName}
-                      </span>
-                    )}
-                    <span className="text-xs text-gray-500">
-                      {review.relativePublishTimeDescription ?? "Google review"}
-                    </span>
-                  </span>
-                </div>
-                <Stars rating={review.rating ?? 5} />
-                <p className="mt-4 flex-1 leading-relaxed text-gray-600">
-                  “{review.text?.text}”
-                </p>
-                <a
-                  href={reviewUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-6 text-sm font-semibold text-accent hover:text-accent-hover"
-                >
-                  View on Google Maps <span aria-hidden="true">↗</span>
-                </a>
-              </article>
-            );
-          })}
-        </div>
+        <ReviewsCarousel reviews={reviewCards} />
 
         <div className="mt-8 flex flex-col items-center justify-between gap-3 text-center sm:flex-row sm:text-left">
           <GoogleMapsAttribution />
           <p className="text-xs text-gray-500">
-            Showing up to three reviews selected and ordered by Google based on relevance.
+            Showing up to five reviews selected and ordered by Google based on relevance.
           </p>
         </div>
       </div>

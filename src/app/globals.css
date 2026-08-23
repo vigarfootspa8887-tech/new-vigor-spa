@@ -15,3 +15,11 @@
 html {
   scroll-behavior: smooth;
 }
+
+.reviews-track {
+  scrollbar-width: none;
+}
+
+.reviews-track::-webkit-scrollbar {
+  display: none;
+}
