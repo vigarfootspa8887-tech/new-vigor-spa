@@ -179,7 +179,7 @@ function Prices() {
         </h2>
         <div className="overflow-hidden rounded-xl shadow-lg">
           <img
-            src="/images/price.png"
+            src="/images/price.jpg"
             alt="New Vigor Foot Spa price list"
             className="w-full"
           />
