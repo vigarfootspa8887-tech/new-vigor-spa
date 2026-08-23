@@ -307,7 +307,7 @@ function GoogleMapsAttribution() {
 
 function ReviewsFallback({ status = "loading" }: { status?: string }) {
   return (
-    <section id="reviews" className="bg-bg-cream py-24" data-review-status={status}>
+    <section id="reviews" className="bg-bg-cream py-16 md:py-20" data-review-status={status}>
       <div className="mx-auto max-w-7xl px-6 text-center">
         <p className="mb-3 text-xs font-semibold tracking-[0.25em] text-accent uppercase">
           Guest Experiences
@@ -315,9 +315,9 @@ function ReviewsFallback({ status = "loading" }: { status?: string }) {
         <h2 className="font-serif text-4xl text-brown-deep md:text-5xl">
           What Our Guests Say
         </h2>
-        <div className="mx-auto mt-10 max-w-xl rounded-2xl border border-black/5 bg-white p-8 shadow-sm">
+        <div className="mx-auto mt-8 max-w-xl rounded-2xl border border-black/5 bg-white p-6 shadow-sm">
           <GoogleMapsAttribution />
-          <p className="mt-4 leading-relaxed text-gray-600">
+          <p className="mt-3 leading-relaxed text-gray-600">
             See recent guest experiences and ratings for New Vigor Foot Spa on
             Google Maps.
           </p>
@@ -325,7 +325,7 @@ function ReviewsFallback({ status = "loading" }: { status?: string }) {
             href={GOOGLE_REVIEWS_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-6 inline-flex items-center rounded-full bg-accent px-7 py-3 text-sm font-semibold tracking-wide text-white transition-colors hover:bg-accent-hover"
+            className="mt-5 inline-flex items-center rounded-full bg-accent px-7 py-3 text-sm font-semibold tracking-wide text-white transition-colors hover:bg-accent-hover"
           >
             Read Our Google Reviews
             <span className="ml-2" aria-hidden="true">↗</span>
