@@ -1,10 +1,37 @@
+import Link from "next/link";
+import { connection } from "next/server";
+import { Suspense } from "react";
+
 const NAV_LINKS = [
   { label: "HOME", href: "#home" },
   { label: "SERVICES", href: "#services" },
   { label: "ABOUT", href: "#about" },
+  { label: "REVIEWS", href: "#reviews" },
   { label: "GALLERY", href: "#gallery" },
   { label: "CONTACT", href: "#contact" },
 ] as const;
+
+const GOOGLE_REVIEWS_URL = "https://share.google/CeY0Agpjwy2y9gSRy";
+
+type GoogleReview = {
+  rating?: number;
+  relativePublishTimeDescription?: string;
+  text?: { text?: string };
+  googleMapsUri?: string;
+  authorAttribution?: {
+    displayName?: string;
+    uri?: string;
+    photoUri?: string;
+  };
+};
+
+type GooglePlace = {
+  displayName?: { text?: string };
+  rating?: number;
+  userRatingCount?: number;
+  googleMapsUri?: string;
+  reviews?: GoogleReview[];
+};
 
 const SERVICES = [
   {
@@ -208,6 +235,243 @@ function About() {
   );
 }
 
+async function getGooglePlace(): Promise<GooglePlace | null> {
+  await connection();
+
+  const apiKey = process.env.GOOGLE_PLACES_API_KEY;
+
+  if (!apiKey) {
+    return null;
+  }
+
+  try {
+    const response = await fetch(
+      "https://places.googleapis.com/v1/places:searchText",
+      {
+        method: "POST",
+        cache: "no-store",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Goog-Api-Key": apiKey,
+          "X-Goog-FieldMask": [
+            "places.displayName",
+            "places.rating",
+            "places.userRatingCount",
+            "places.googleMapsUri",
+            "places.reviews.rating",
+            "places.reviews.text",
+            "places.reviews.relativePublishTimeDescription",
+            "places.reviews.authorAttribution",
+            "places.reviews.googleMapsUri",
+          ].join(","),
+        },
+        body: JSON.stringify({
+          textQuery: "New Vigor Foot Spa, 27 W Main St, Smithtown, NY 11787",
+          pageSize: 1,
+          languageCode: "en",
+          regionCode: "US",
+        }),
+      },
+    );
+
+    if (!response.ok) {
+      return null;
+    }
+
+    const data = (await response.json()) as { places?: GooglePlace[] };
+    const place = data.places?.[0];
+
+    if (place?.displayName?.text !== "New Vigor Foot Spa") {
+      return null;
+    }
+
+    return place;
+  } catch {
+    return null;
+  }
+}
+
+function Stars({ rating }: { rating: number }) {
+  const filledStars = Math.round(rating);
+
+  return (
+    <span
+      className="inline-flex gap-0.5 text-amber-400"
+      aria-label={`${rating} out of 5 stars`}
+    >
+      {[1, 2, 3, 4, 5].map((star) => (
+        <svg
+          key={star}
+          viewBox="0 0 20 20"
+          className={`size-5 ${star <= filledStars ? "fill-current" : "fill-gray-200"}`}
+          aria-hidden="true"
+        >
+          <path d="M9.05 2.93c.3-.92 1.6-.92 1.9 0l1.12 3.45a1 1 0 0 0 .95.69h3.63c.97 0 1.37 1.24.59 1.81l-2.94 2.13a1 1 0 0 0-.36 1.12l1.12 3.45c.3.92-.75 1.69-1.54 1.12l-2.93-2.14a1 1 0 0 0-1.18 0L6.48 16.7c-.79.57-1.84-.2-1.54-1.12l1.12-3.45a1 1 0 0 0-.36-1.12L2.76 8.88c-.78-.57-.38-1.81.59-1.81h3.63a1 1 0 0 0 .95-.69l1.12-3.45Z" />
+        </svg>
+      ))}
+    </span>
+  );
+}
+
+function GoogleMapsAttribution() {
+  return (
+    <span className="text-sm text-[#5e5e5e]">
+      Reviews from <span className="font-semibold">Google Maps</span>
+    </span>
+  );
+}
+
+function ReviewsFallback() {
+  return (
+    <section id="reviews" className="bg-bg-cream py-24">
+      <div className="mx-auto max-w-7xl px-6 text-center">
+        <p className="mb-3 text-xs font-semibold tracking-[0.25em] text-accent uppercase">
+          Guest Experiences
+        </p>
+        <h2 className="font-serif text-4xl text-brown-deep md:text-5xl">
+          What Our Guests Say
+        </h2>
+        <div className="mx-auto mt-10 max-w-xl rounded-2xl border border-black/5 bg-white p-8 shadow-sm">
+          <GoogleMapsAttribution />
+          <p className="mt-4 leading-relaxed text-gray-600">
+            See recent guest experiences and ratings for New Vigor Foot Spa on
+            Google Maps.
+          </p>
+          <a
+            href={GOOGLE_REVIEWS_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-6 inline-flex items-center rounded-full bg-accent px-7 py-3 text-sm font-semibold tracking-wide text-white transition-colors hover:bg-accent-hover"
+          >
+            Read Our Google Reviews
+            <span className="ml-2" aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+async function GoogleReviews() {
+  const place = await getGooglePlace();
+  const reviews = (place?.reviews ?? [])
+    .filter((review) => review.text?.text)
+    .slice(0, 3);
+
+  if (!place || reviews.length === 0) {
+    return <ReviewsFallback />;
+  }
+
+  const reviewsUrl = place.googleMapsUri ?? GOOGLE_REVIEWS_URL;
+  const rating = place.rating ?? 5;
+
+  return (
+    <section id="reviews" className="bg-bg-cream py-24">
+      <div className="mx-auto max-w-7xl px-6">
+        <div className="mb-12 flex flex-col items-center justify-between gap-8 text-center md:flex-row md:text-left">
+          <div>
+            <p className="mb-3 text-xs font-semibold tracking-[0.25em] text-accent uppercase">
+              Guest Experiences
+            </p>
+            <h2 className="font-serif text-4xl text-brown-deep md:text-5xl">
+              What Our Guests Say
+            </h2>
+          </div>
+          <a
+            href={reviewsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex items-center gap-4 rounded-2xl border border-black/5 bg-white px-6 py-4 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
+          >
+            <span className="font-serif text-3xl text-brown-deep">
+              {rating.toFixed(1)}
+            </span>
+            <span className="text-left">
+              <Stars rating={rating} />
+              <span className="mt-1 block text-xs text-gray-500">
+                {place.userRatingCount
+                  ? `Based on ${place.userRatingCount} reviews`
+                  : "Guest rating"}
+              </span>
+            </span>
+            <span className="text-accent transition-transform group-hover:translate-x-0.5" aria-hidden="true">
+              ↗
+            </span>
+          </a>
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-3">
+          {reviews.map((review, index) => {
+            const author = review.authorAttribution;
+            const authorName = author?.displayName ?? "Google reviewer";
+            const reviewUrl = review.googleMapsUri ?? reviewsUrl;
+
+            return (
+              <article
+                key={`${authorName}-${index}`}
+                className="flex h-full flex-col rounded-2xl border border-black/5 bg-white p-7 shadow-sm"
+              >
+                <div className="mb-5 flex items-center gap-3">
+                  {author?.photoUri ? (
+                    <img
+                      src={author.photoUri}
+                      alt={`${authorName}'s Google profile`}
+                      className="size-11 rounded-full object-cover"
+                      referrerPolicy="no-referrer"
+                    />
+                  ) : (
+                    <span className="flex size-11 items-center justify-center rounded-full bg-bg-warm font-serif text-lg text-brown-deep">
+                      {authorName.charAt(0).toUpperCase()}
+                    </span>
+                  )}
+                  <span className="min-w-0">
+                    {author?.uri ? (
+                      <a
+                        href={author.uri}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block truncate font-semibold text-brown-deep hover:text-accent"
+                      >
+                        {authorName}
+                      </a>
+                    ) : (
+                      <span className="block truncate font-semibold text-brown-deep">
+                        {authorName}
+                      </span>
+                    )}
+                    <span className="text-xs text-gray-500">
+                      {review.relativePublishTimeDescription ?? "Google review"}
+                    </span>
+                  </span>
+                </div>
+                <Stars rating={review.rating ?? 5} />
+                <p className="mt-4 flex-1 leading-relaxed text-gray-600">
+                  “{review.text?.text}”
+                </p>
+                <a
+                  href={reviewUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-6 text-sm font-semibold text-accent hover:text-accent-hover"
+                >
+                  View on Google Maps <span aria-hidden="true">↗</span>
+                </a>
+              </article>
+            );
+          })}
+        </div>
+
+        <div className="mt-8 flex flex-col items-center justify-between gap-3 text-center sm:flex-row sm:text-left">
+          <GoogleMapsAttribution />
+          <p className="text-xs text-gray-500">
+            Showing up to three reviews selected and ordered by Google based on relevance.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Gallery() {
   return (
     <section id="gallery" className="bg-bg-warm py-24">
@@ -283,6 +547,17 @@ function Footer() {
           &copy; {new Date().getFullYear()} New Vigor Foot Spa. All rights
           reserved.
         </p>
+        <div className="mt-4 flex items-center justify-center gap-5 text-xs text-gray-500">
+          <Link
+            href="/privacy"
+            className="transition-colors hover:text-white/80"
+          >
+            Privacy Policy
+          </Link>
+          <Link href="/terms" className="transition-colors hover:text-white/80">
+            Terms of Use
+          </Link>
+        </div>
       </div>
     </footer>
   );
@@ -296,6 +571,9 @@ export default function Home() {
       <Services />
       <Prices />
       <About />
+      <Suspense fallback={<ReviewsFallback />}>
+        <GoogleReviews />
+      </Suspense>
       <Gallery />
       <Contact />
       <Footer />
