@@ -360,9 +360,9 @@ async function GoogleReviews() {
   }));
 
   return (
-    <section id="reviews" className="bg-bg-cream py-24" data-review-status="ready">
+    <section id="reviews" className="bg-bg-cream py-16 md:py-20" data-review-status="ready">
       <div className="mx-auto max-w-7xl px-6">
-        <div className="mb-12 flex flex-col items-center justify-between gap-8 text-center md:flex-row md:text-left">
+        <div className="mb-8 flex flex-col items-center justify-between gap-6 text-center md:flex-row md:text-left">
           <div>
             <p className="mb-3 text-xs font-semibold tracking-[0.25em] text-accent uppercase">
               Guest Experiences
@@ -375,7 +375,7 @@ async function GoogleReviews() {
             href={reviewsUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex items-center gap-4 rounded-2xl border border-black/5 bg-white px-6 py-4 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
+            className="group flex items-center gap-4 rounded-2xl border border-black/5 bg-white px-5 py-3 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
           >
             <span className="font-serif text-3xl text-brown-deep">
               {rating.toFixed(1)}
@@ -404,7 +404,7 @@ async function GoogleReviews() {
 
         <ReviewsCarousel reviews={reviewCards} />
 
-        <div className="mt-8 flex flex-col items-center justify-between gap-3 text-center sm:flex-row sm:text-left">
+        <div className="mt-5 flex flex-col items-center justify-between gap-3 text-center sm:flex-row sm:text-left">
           <GoogleMapsAttribution />
           <p className="text-xs text-gray-500">
             Showing up to five reviews selected and ordered by Google based on relevance.
