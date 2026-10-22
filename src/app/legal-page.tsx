@@ -9,10 +9,17 @@ type LegalPageProps = {
 
 export function LegalPage({ title, updated, children }: LegalPageProps) {
   return (
-    <main className="min-h-screen bg-bg-cream px-6 py-12 text-gray-700 md:py-20">
+    <main
+      id="main-content"
+      tabIndex={-1}
+      className="min-h-screen bg-bg-cream px-6 py-12 text-gray-700 md:py-20"
+    >
       <div className="mx-auto max-w-3xl">
         <div className="mb-12 flex flex-col items-start justify-between gap-5 border-b border-brown-deep/10 pb-8 sm:flex-row sm:items-center">
-          <Link href="/" className="font-serif text-xl text-brown-deep hover:text-accent">
+          <Link
+            href="/"
+            className="font-serif text-xl text-brown-deep hover:text-accent"
+          >
             New Vigor Foot Spa
           </Link>
           <Link

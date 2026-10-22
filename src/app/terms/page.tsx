@@ -1,7 +1,15 @@
 import type { Metadata } from "next";
 import { LegalPage } from "../legal-page";
+import { SOCIAL_METADATA } from "../site-info";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/terms" },
+  openGraph: {
+    ...SOCIAL_METADATA,
+    title: "Terms of Use | New Vigor Foot Spa",
+    description: "Terms of use for the New Vigor Foot Spa website.",
+    url: "/terms",
+  },
   title: "Terms of Use | New Vigor Foot Spa",
   description: "Terms of use for the New Vigor Foot Spa website.",
 };
@@ -33,14 +41,20 @@ export default function TermsPage() {
           Online booking, maps, reviews, and social media features may be
           operated by third parties. Your use of those services is governed by
           their own terms and policies. Google Maps features and content are
-          subject to the
-          {" "}
-          <a href="https://maps.google.com/help/terms_maps/" target="_blank" rel="noopener noreferrer">
+          subject to the{" "}
+          <a
+            href="https://maps.google.com/help/terms_maps/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Google Maps Terms
-          </a>
-          {" "}and the
-          {" "}
-          <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">
+          </a>{" "}
+          and the{" "}
+          <a
+            href="https://policies.google.com/privacy"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Google Privacy Policy
           </a>
           .
@@ -51,8 +65,8 @@ export default function TermsPage() {
         <h2>Wellness information</h2>
         <p>
           Website content is for general informational purposes and is not
-          medical advice, diagnosis, or treatment. Massage and wellness
-          services may not be appropriate for every person. Consult a qualified
+          medical advice, diagnosis, or treatment. Massage and wellness services
+          may not be appropriate for every person. Consult a qualified
           healthcare professional about medical concerns or conditions before
           receiving services.
         </p>
@@ -89,8 +103,7 @@ export default function TermsPage() {
       <section>
         <h2>Contact us</h2>
         <p>
-          Questions about these terms may be sent to
-          {" "}
+          Questions about these terms may be sent to{" "}
           <a href="mailto:vigarfootspa8887@gmail.com">
             vigarfootspa8887@gmail.com
           </a>

@@ -1,7 +1,15 @@
 import type { Metadata } from "next";
 import { LegalPage } from "../legal-page";
+import { SOCIAL_METADATA } from "../site-info";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/privacy" },
+  openGraph: {
+    ...SOCIAL_METADATA,
+    title: "Privacy Policy | New Vigor Foot Spa",
+    description: "Privacy policy for the New Vigor Foot Spa website.",
+    url: "/privacy",
+  },
   title: "Privacy Policy | New Vigor Foot Spa",
   description: "Privacy policy for the New Vigor Foot Spa website.",
 };
@@ -36,14 +44,20 @@ export default function PrivacyPolicyPage() {
           available business ratings and reviews. The embedded map, reviewer
           profile images, and links to Google Maps may cause your browser to
           connect with Google. Google may process device, network, usage, or
-          cookie information under the
-          {" "}
-          <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">
+          cookie information under the{" "}
+          <a
+            href="https://policies.google.com/privacy"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Google Privacy Policy
           </a>
-          . Google Maps content is also subject to the
-          {" "}
-          <a href="https://maps.google.com/help/terms_maps/" target="_blank" rel="noopener noreferrer">
+          . Google Maps content is also subject to the{" "}
+          <a
+            href="https://maps.google.com/help/terms_maps/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Google Maps Terms
           </a>
           .
@@ -59,8 +73,8 @@ export default function PrivacyPolicyPage() {
         <p>
           We may use hosting and privacy-conscious analytics providers to
           deliver the website, monitor reliability, and understand aggregate
-          traffic. These providers process information only as needed to
-          provide their services and protect their systems.
+          traffic. These providers process information only as needed to provide
+          their services and protect their systems.
         </p>
       </section>
 
@@ -85,8 +99,7 @@ export default function PrivacyPolicyPage() {
       <section>
         <h2>Contact us</h2>
         <p>
-          For privacy questions, email
-          {" "}
+          For privacy questions, email{" "}
           <a href="mailto:vigarfootspa8887@gmail.com">
             vigarfootspa8887@gmail.com
           </a>
