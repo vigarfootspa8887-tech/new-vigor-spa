@@ -1,4 +1,3 @@
-import Link from "next/link";
 import Image from "next/image";
 import { connection } from "next/server";
 import { Suspense } from "react";
@@ -6,6 +5,8 @@ import { ReviewsCarousel, type ReviewCardData } from "./reviews-carousel";
 import { GalleryGrid, type GalleryPhoto } from "./gallery-grid";
 import { ScrollReveal } from "./scroll-reveal";
 import { Navbar } from "./navbar";
+import { Footer } from "./footer";
+import { UpdatesPreview } from "./updates-preview";
 import {
   BOOKING_URL,
   BUSINESS_NAME,
@@ -627,33 +628,6 @@ function Contact() {
   );
 }
 
-function Footer() {
-  return (
-    <footer className="bg-black py-8">
-      <div className="mx-auto max-w-7xl px-6 text-center">
-        <p className="mb-2 font-serif text-lg text-white/80">
-          New Vigor Foot Spa
-        </p>
-        <p className="text-sm text-gray-400">
-          &copy; {new Date().getFullYear()} New Vigor Foot Spa. All rights
-          reserved.
-        </p>
-        <div className="mt-4 flex items-center justify-center gap-5 text-xs text-gray-400">
-          <Link
-            href="/privacy"
-            className="transition-colors hover:text-white/80"
-          >
-            Privacy Policy
-          </Link>
-          <Link href="/terms" className="transition-colors hover:text-white/80">
-            Terms of Use
-          </Link>
-        </div>
-      </div>
-    </footer>
-  );
-}
-
 export default function Home() {
   const businessSchema = {
     "@context": "https://schema.org",
@@ -690,6 +664,7 @@ export default function Home() {
           <GoogleReviews />
         </Suspense>
         <Gallery />
+        <UpdatesPreview />
         <Contact />
       </main>
       <Footer />

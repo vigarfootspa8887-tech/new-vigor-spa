@@ -1,5 +1,7 @@
 export const SITE_URL = "https://newvigorspa.com";
 export const BUSINESS_NAME = "New Vigor Foot Spa";
+export const GOOGLE_PROFILE_URL =
+  "https://www.google.com/maps/place/New+Vigor+Foot+Spa/data=!4m2!3m1!1s0x0:0xd5e22159224b7c6a";
 export const PHONE_LABEL = "(631) 656-8887";
 export const PHONE_URL = `tel:+1${PHONE_LABEL.replace(/\D/g, "")}`;
 export const BOOKING_URL =
@@ -22,11 +24,12 @@ export const SOCIAL_METADATA = {
 };
 
 export const NAV_LINKS = [
-  { label: "Home", href: "#home" },
-  { label: "Services", href: "#services" },
-  { label: "Pricing", href: "#prices" },
-  { label: "About", href: "#about" },
-  { label: "Reviews", href: "#reviews" },
-  { label: "Gallery", href: "#gallery" },
-  { label: "Contact", href: "#contact" },
+  { label: "Home", href: "/#home" },
+  { label: "Services", href: "/#services" },
+  { label: "Pricing", href: "/#prices" },
+  { label: "About", href: "/#about" },
+  { label: "Reviews", href: "/#reviews" },
+  { label: "Gallery", href: "/#gallery" },
+  { label: "Updates", href: "/updates" },
+  { label: "Contact", href: "/#contact" },
 ] as const;

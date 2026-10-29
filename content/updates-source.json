@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "id": "your-range-your-pace",
+      "package": "week19",
+      "post": 6,
+      "publication": {
+        "status": "published",
+        "publishedOn": "2026-10",
+        "verifiedOn": "2026-10-29",
+        "order": 4,
+        "evidence": "Visible in Google Search's public owner updates on October 29, 2026. Full caption matched to the original and saved owner readback.",
+        "dateEvidence": "The public page displayed 19 hours ago. An earlier owner view showed Scheduled Oct 28; the precise publication timestamp is unverified."
+      },
+      "googlePostUrl": null
+    },
+    {
+      "id": "beyond-the-sole",
+      "package": "week19",
+      "post": 1,
+      "publication": {
+        "status": "published",
+        "publishedOn": "2026-10",
+        "verifiedOn": "2026-10-29",
+        "order": 3,
+        "evidence": "Visible in Google Search's public owner updates on October 29, 2026. Full caption matched to the original and saved owner readback.",
+        "dateEvidence": "The public page displayed 3 days ago. The precise publication timestamp is unverified."
+      },
+      "googlePostUrl": null
+    },
+    {
+      "id": "a-different-touch",
+      "package": "week18",
+      "post": 3,
+      "publication": {
+        "status": "published",
+        "publishedOn": "2026-10-21",
+        "verifiedOn": "2026-10-29",
+        "order": 2,
+        "evidence": "Visible in Google Search's public owner updates on October 29, 2026. Full caption matched to the original and saved owner readback.",
+        "dateEvidence": "The public Google post displayed October 21, 2026."
+      },
+      "googlePostUrl": null
+    },
+    {
+      "id": "after-the-extra-steps",
+      "package": "week18",
+      "post": 1,
+      "publication": {
+        "status": "published",
+        "publishedOn": "2026-10-19",
+        "verifiedOn": "2026-10-29",
+        "order": 1,
+        "evidence": "Visible in Google Search's public owner updates on October 29, 2026. Full caption matched to the original and saved owner readback.",
+        "dateEvidence": "The public Google post displayed October 19, 2026."
+      },
+      "googlePostUrl": null
+    }
+  ]
+}

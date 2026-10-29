@@ -7,7 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test:reviews": "node scripts/test-reviews.mjs"
+    "test:reviews": "node scripts/test-reviews.mjs",
+    "test:updates": "node --experimental-strip-types --test scripts/test-updates.mjs",
+    "content:import": "node scripts/import-updates.mjs",
+    "content:check": "node scripts/import-updates.mjs --check"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
